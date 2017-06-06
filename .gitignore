@@ -8,6 +8,7 @@ source.txt
 *.bash
 *.project
 *.classpath
+*.pyc
 
 
 # Log file
