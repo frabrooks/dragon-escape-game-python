@@ -5,7 +5,7 @@ Created on 6 Jun 2017
 '''
 import pygame
 from abc import ABCMeta, abstractmethod
-from game_objects.game_entities  import Entity
+from game_objects.game_entities import *
 import math
 
 

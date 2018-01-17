@@ -21,7 +21,7 @@ class MainGame (object):
     
     def __init__(self, screen):
         self.screen = screen
-        
+        self.rand_start()
 
         self.entities = []
         self.bg = etd_sprites.Background(self)
@@ -43,7 +43,7 @@ class MainGame (object):
         self.barricade = etd_sprites.Barricade(self)
         self.obstacles.append(self.barricade)
         
-        self.current_obstacle = self.obstacles[randint(0,2)]
+        self.current_obstacle = self.pit
 
         # Sprite group with support for sprite layers
         self.scene = pygame.sprite.LayeredUpdates()
@@ -55,7 +55,7 @@ class MainGame (object):
         
         self.game_over = False
         self.game_started = False
-        self.game_speed = 25
+        self.game_speed = 32
         self.last_speed_change = 0
         self.score = 0
         
@@ -72,7 +72,8 @@ class MainGame (object):
                 o.reset(-4000)
             self.player.reset()
             self.dragon.X = -808
-            self.game_speed = 25
+            self.dragon.done_moving = False
+            self.game_speed = 32
             self.last_speed_change = 0
             self.game_over = False
             self.game_started = False
@@ -149,7 +150,7 @@ class MainGame (object):
                 s.move()
 
             if (not self.current_obstacle.move()):
-                self.current_obstacle = self.obstacles[randint(0,2)]
+                self.current_obstacle = self.obstacles[self.next_rand()]
                 self.current_obstacle.reset(randint(0,600))
             
             if ( self.current_obstacle.collide(self.player)):
@@ -257,10 +258,32 @@ class MainGame (object):
     def render_scene(self):
         self.scene.draw(self.screen)
         
+        
+    def rand_start(self):
+        self.l1 = [1,0,2,0,1,2,0,0,2,2]
+        self.l2 = [1,1,2,2,0,2,0,1,2,1]
+        self.current_random = self.l1
+        self.inc = 0
+    
+        
+    def next_rand(self):
+        x = randint(1,100)
+        if x < 20:
+            if x > 10:
+                self.current_random = self.l1
+            else:
+                self.current_random = self.l2
+        c = self.current_random[self.inc]
+        if self.inc > 8:
+            self.inc = 0
+        else:
+            self.inc += 1
+        return c
+        
 #main program begins
 pygame.init()
 screen = pygame.display.set_mode((1600,800))
-pygame.display.set_caption("Escape The Dragon")
+pygame.display.set_caption("Dragon Escape Game")
 font1 = pygame.font.Font(None, 36)
 framerate = pygame.time.Clock()
 main = MainGame(screen)
