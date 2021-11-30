@@ -1,5 +1,5 @@
 
-## Escape The Dragon Game
+## 'Escape The Dragon' Infinite-Runner Game
 - Using Python 3.2.5 and pygame
 - Designed and coded around June 2016
 
